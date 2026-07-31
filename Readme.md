@@ -8,9 +8,27 @@ Thanks for that one guy on stackexchange that had a nice clean example of how po
 
 ### Usage
 
-Type the following into [flow launcher](https://github.com/Flow-Launcher/Flow.Launcher) query and click/enter result to toggle caffeine :)
+Type `caf` into [Flow Launcher](https://github.com/Flow-Launcher/Flow.Launcher) to choose how long to keep your PC awake. Press enter to activate — the first option (indefinitely) works just like the original toggle.
 
-![caffeine](Images/readme/caff-display.png)
+![caffeine presets](Images/readme/caff-presets.png)
+
+You can also type a custom duration directly:
+
+| Command | Effect |
+|---------|--------|
+| `caf` | Show duration presets (indefinite, 30m, 1h, 2h, 8h) |
+| `caf 3` | Keep awake for 3 hours |
+| `caf 45m` | Keep awake for 45 minutes |
+| `caf 1.5` | Keep awake for 1.5 hours (90 minutes) |
+| `caf off` | Turn off caffeine |
+
+When caffeine is already active, typing `caf` shows a "Turn off" option at the top along with options to switch to a different duration. The current mode is hidden from the list since you're already using it.
+
+### Tray Icon
+
+Right-click the tray icon for quick access to duration presets and turn off. The remaining time is shown at the top of the menu and in the tooltip on hover.
+
+![caffeine tray](Images/readme/caff-tray.png)
 
 ### Settings
 

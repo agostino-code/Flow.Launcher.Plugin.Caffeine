@@ -35,7 +35,7 @@ public static class PowerUtilities
         // Legacy flag, should not be used.
         // ES_USER_PRESENT = 0x00000004
     }
-    
+
     [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
     static extern uint SetThreadExecutionState(EXECUTION_STATE esFlags);
 
