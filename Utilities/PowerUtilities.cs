@@ -39,23 +39,36 @@ public static class PowerUtilities
     [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
     static extern uint SetThreadExecutionState(EXECUTION_STATE esFlags);
 
-    private static AutoResetEvent _event = new AutoResetEvent(false);
+    private static readonly object _lock = new();
+    private static AutoResetEvent _event;
 
     /// <summary>
     /// Prevent the system from entering power save mode
     /// </summary>
-    public static void PreventPowerSave()
+    /// <param name="keepDisplayOn">Whether to force the display to stay on in addition to system sleep prevention</param>
+    public static void PreventPowerSave(bool keepDisplayOn = true)
     {
-        new TaskFactory().StartNew(() =>
-            {
-                SetThreadExecutionState(
-                    EXECUTION_STATE.ES_CONTINUOUS
-                    | EXECUTION_STATE.ES_DISPLAY_REQUIRED
-                    | EXECUTION_STATE.ES_SYSTEM_REQUIRED);
-                _event.WaitOne();
+        lock (_lock)
+        {
+            Shutdown();
 
-            },
-            TaskCreationOptions.LongRunning);
+            _event = new AutoResetEvent(false);
+            var currentEvent = _event;
+
+            new TaskFactory().StartNew(() =>
+                {
+                    var flags = EXECUTION_STATE.ES_CONTINUOUS | EXECUTION_STATE.ES_SYSTEM_REQUIRED;
+                    if (keepDisplayOn)
+                    {
+                        flags |= EXECUTION_STATE.ES_DISPLAY_REQUIRED;
+                    }
+
+                    SetThreadExecutionState(flags);
+                    currentEvent.WaitOne();
+                    SetThreadExecutionState(EXECUTION_STATE.ES_CONTINUOUS);
+                },
+                TaskCreationOptions.LongRunning);
+        }
     }
 
     /// <summary>
@@ -63,6 +76,14 @@ public static class PowerUtilities
     /// </summary>
     public static void Shutdown()
     {
-        _event.Set();
+        lock (_lock)
+        {
+            if (_event != null)
+            {
+                _event.Set();
+                _event.Dispose();
+                _event = null;
+            }
+        }
     }
 }

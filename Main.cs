@@ -232,7 +232,7 @@ public class Caffeine : IPlugin, ISettingProvider, IDisposable
 
         if (!IsActive)
         {
-            PowerUtilities.PreventPowerSave();
+            PowerUtilities.PreventPowerSave(_settings.KeepDisplayOn);
             IsActive = true;
 
             if (duration.HasValue)
@@ -320,6 +320,15 @@ public class Caffeine : IPlugin, ISettingProvider, IDisposable
     {
         if (IsActive && _settings.ShowTrayIcon)
             TrayIconManager.ShowTray(_context, OnDurationSelected, () => StopCaffeine(), GetStatusText);
+    }
+
+    /// <summary>
+    /// Called by PluginSettings when power options change while caffeine is active.
+    /// </summary>
+    internal void UpdatePowerSettings()
+    {
+        if (IsActive)
+            PowerUtilities.PreventPowerSave(_settings.KeepDisplayOn);
     }
 
     /// <summary>

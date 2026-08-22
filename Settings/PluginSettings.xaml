@@ -10,6 +10,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Vertical" VerticalAlignment="Top">
@@ -62,6 +63,24 @@
                                VerticalAlignment="Center"
                                Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
                     <TextBlock Text="Show tray icon when caffeine is active" 
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+            </CheckBox>
+        </StackPanel>
+        <StackPanel Grid.Row="3" Orientation="Vertical" VerticalAlignment="Top">
+            <CheckBox x:Name="KeepDisplayOnCheckBox"
+                      VerticalAlignment="Center"
+                      Margin="0,10,0,10"
+                      Checked="KeepDisplayOnCheckBox_Changed"
+                      Unchecked="KeepDisplayOnCheckBox_Changed">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontFamily="Segoe MDL2 Assets" 
+                               Text="&#xE7F4;" 
+                               FontSize="16" 
+                               Margin="0,0,8,0" 
+                               VerticalAlignment="Center"
+                               Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+                    <TextBlock Text="Keep screen active (uncheck to allow screen off &amp; reduce heat)" 
                                VerticalAlignment="Center"/>
                 </StackPanel>
             </CheckBox>
