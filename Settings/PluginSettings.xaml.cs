@@ -31,7 +31,6 @@ public partial class PluginSettings : UserControl
         StartWithFlowLauncherCheckBox.IsChecked = _settings.StartWithFlowLauncher;
         SendNotificationsCheckBox.IsChecked = _settings.SendNotifications;
         ShowTrayIconCheckBox.IsChecked = _settings.ShowTrayIcon;
-        KeepDisplayOnCheckBox.IsChecked = _settings.KeepDisplayOn;
         _isLoading = false;
     }
 
@@ -53,18 +52,11 @@ public partial class PluginSettings : UserControl
             SaveSettings();
     }
 
-    private void KeepDisplayOnCheckBox_Changed(object sender, System.Windows.RoutedEventArgs e)
-    {
-        if (!_isLoading)
-            SaveSettings();
-    }
-
     private void SaveSettings()
     {
         _settings.StartWithFlowLauncher = StartWithFlowLauncherCheckBox.IsChecked ?? false;
         _settings.SendNotifications = SendNotificationsCheckBox.IsChecked ?? true;
         _settings.ShowTrayIcon = ShowTrayIconCheckBox.IsChecked ?? true;
-        _settings.KeepDisplayOn = KeepDisplayOnCheckBox.IsChecked ?? true;
 
         _context.API.SaveSettingJsonStorage<Settings>();
 
